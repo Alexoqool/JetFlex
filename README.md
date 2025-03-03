@@ -1,7 +1,7 @@
 <img src="JetFlex_Logo.png" width="128" height="128">
 
 # JetFlex
-IntelliJ IDEA for Android
+[IntelliJ IDEA Community Edition](https://github.com/JetBrains/intellij-community) for Android
 
 ## Building
 1. Download, install and configure [AndroidIDE](https://github.com/itsaky/AndroidIDE/releases/latest)
