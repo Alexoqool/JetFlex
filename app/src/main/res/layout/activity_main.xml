@@ -7,9 +7,42 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <SurfaceView
-        android:id="@+id/surface_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/logo_image_view"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="48dp"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/welcome_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="192dp"
+        android:text="@string/welcome_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continue_button"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="64dp"
+        android:text="Continue"
+        android:textAlignment="center"
+        app:icon="@drawable/ic_archive"
+        app:iconGravity="start" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/select_archive_button"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="16dp"
+        android:text="@string/select_archive"
+        android:textAlignment="center"
+        app:icon="@drawable/ic_archive"
+        app:iconGravity="start" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

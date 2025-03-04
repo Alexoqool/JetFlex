@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">JetFlex</string>
-
+    <string name="welcome_text">Welcome to JetFlex! Select .tar.gz with IntelliJ IDEA</string>
+    <string name="select_archive">Select Archive</string>
+    <string name="wait">Please, wait...</string>
+    <string name="success">Success</string>
 </resources>
