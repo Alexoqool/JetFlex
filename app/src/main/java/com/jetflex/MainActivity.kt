@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
                     progressDialog?.dismiss()
                     MaterialAlertDialogBuilder(this@MainActivity)
                         .setTitle(R.string.success)
+                        .setMessage(R.string.success_message)
                         .setPositiveButton(android.R.string.ok, null)
                         .show()
                 }

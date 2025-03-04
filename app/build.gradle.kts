@@ -49,5 +49,5 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("org.apache.commons:commons-compress:1.23.0")
+    implementation("org.apache.commons:commons-compress:1.27.1")
 }

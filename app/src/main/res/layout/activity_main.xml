@@ -29,9 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="64dp"
-        android:text="Continue"
+        android:text="@string/continue_next"
         android:textAlignment="center"
-        app:icon="@drawable/ic_archive"
+        app:icon="@drawable/ic_next"
         app:iconGravity="start" />
 
     <com.google.android.material.button.MaterialButton
