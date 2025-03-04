@@ -9,13 +9,11 @@ import com.jetflex.databinding.ActivityJetflexBinding
 
 public class JetFlexActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
-    private var _binding: ActivityJetflexBinding? = null
-    private val binding: ActivityJetflexBinding
-        get() = checkNotNull(_binding) { "Activity has been destroyed" }
+    private lateinit var binding: ActivityJetflexBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityJetflexBinding.inflate(layoutInflater)
+        binding = ActivityJetflexBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.decorView.apply {
             systemUiVisibility =
@@ -39,10 +37,5 @@ public class JetFlexActivity : AppCompatActivity(), SurfaceHolder.Callback {
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         Log.d("JetFlexActivity", "Surface Destroyed")
         // TODO
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

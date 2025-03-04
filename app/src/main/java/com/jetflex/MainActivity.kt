@@ -22,8 +22,12 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
 
 class MainActivity : AppCompatActivity() {
+    
+    companion object {
+        private const val PREFS_NAME = "JetFlexPrefs"
+        private const val KEY_IS_ARCHIVE_EXTRACTED = "isArchiveExtracted"
+    }
 
-    private var _binding: ActivityMainBinding? = null
     private lateinit var binding: ActivityMainBinding
     private var progressDialog: Dialog? = null
     private var isArchiveExtracted = false
@@ -32,11 +36,6 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let { extractArchive(it) }
         }
-
-    companion object {
-        private const val PREFS_NAME = "JetFlexPrefs"
-        private const val KEY_IS_ARCHIVE_EXTRACTED = "isArchiveExtracted"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,10 +117,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        progressDialog = null
     }
 }
