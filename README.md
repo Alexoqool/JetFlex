@@ -3,6 +3,7 @@
 # JetFlex
 Run IntelliJ IDEA Community Edition on Android devices
 **Very WIP**
+**Doesn't work currently**
 
 ## Requirements
 - Android device with ARM64 architecture
@@ -11,7 +12,7 @@ Run IntelliJ IDEA Community Edition on Android devices
 
 ## Installation Guide
 1. Download IntelliJ IDEA Community Edition (Linux ARM64, version 2024.3.4) from the [JetBrains website](https://www.jetbrains.com/idea/download/?section=linux)
-2. Install the latest JetFlex APK from our [releases page](https://github.com/Alexoqool/JetFlex/releases/latest)
+2. Install the latest JetFlex APK from [releases page](https://github.com/Alexoqool/JetFlex/releases/latest)
 3. Launch JetFlex and tap `Select Archive` to choose the downloaded .tar.gz file
 4. Wait for the extraction process to complete, then tap `Continue`
 
