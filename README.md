@@ -2,6 +2,7 @@
 
 # JetFlex
 Run IntelliJ IDEA Community Edition on Android devices
+**Very WIP**
 
 ## Requirements
 - Android device with ARM64 architecture
