@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">JetFlex</string>
     <string name="welcome_text">Welcome to JetFlex! Select .tar.gz with IntelliJ IDEA CE (Linux ARM64)</string>
-    <string name="continue_next">Continue</string>
     <string name="select_archive">Select Archive</string>
+    <string name="continue_next">Continue</string>
     <string name="wait">Please, wait...</string>
     <string name="success">Success</string>
     <string name="success_message">The operation was successful</string>

@@ -24,25 +24,25 @@
         android:text="@string/welcome_text" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/continue_button"
-        android:layout_width="156dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="64dp"
-        android:text="@string/continue_next"
-        android:textAlignment="center"
-        app:icon="@drawable/ic_next"
-        app:iconGravity="start" />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/select_archive_button"
         android:layout_width="156dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="64dp"
         android:text="@string/select_archive"
         android:textAlignment="center"
         app:icon="@drawable/ic_archive"
+        app:iconGravity="start" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continue_button"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="16dp"
+        android:text="@string/continue_next"
+        android:textAlignment="center"
+        app:icon="@drawable/ic_next"
         app:iconGravity="start" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

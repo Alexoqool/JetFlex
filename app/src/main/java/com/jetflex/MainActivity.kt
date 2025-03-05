@@ -9,6 +9,7 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jetflex.databinding.ActivityMainBinding
@@ -20,9 +21,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
+import org.apache.commons.compress.compressors.xz.XZCompressorInputStream
 
 class MainActivity : AppCompatActivity() {
-    
+
     companion object {
         private const val PREFS_NAME = "JetFlexPrefs"
         private const val KEY_IS_ARCHIVE_EXTRACTED = "isArchiveExtracted"
@@ -104,6 +106,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                copyAsset("libjnidispatch.so", "idea/idea-IC-243.25659.39/lib/jna/aarch64")
+                copyAsset("libpty.so", "idea/idea-IC-243.25659.39/lib/pty4j/linux/aarch64")
+                copyAsset("libsqliteij.so", "idea/idea-IC-243.25659.39/lib/native/linux-aarch64")
+                copyAsset("pty4j.jar", "idea/idea-IC-243.25659.39/lib")
+                copyAsset("e2fsprogs-lib.tar.xz", "idea/idea-IC-243.25659.39")
+
                 withContext(Dispatchers.Main) {
                     isArchiveExtracted = true
                     savePrefs()
@@ -114,6 +122,50 @@ class MainActivity : AppCompatActivity() {
                         .setMessage(R.string.success_message)
                         .setPositiveButton(android.R.string.ok, null)
                         .show()
+                }
+            }
+        }
+    }
+
+    private fun copyAsset(assetFileName: String, subDir: String) {
+        val destinationDir = File(applicationInfo.dataDir, subDir).apply { mkdirs() }
+
+        if (assets.list(assetFileName) != null) {
+            assets.list(assetFileName)?.forEach { file ->
+                copyAsset("$assetFileName/$file", "$subDir/$file")
+            }
+        } else {
+            if (assetFileName.endsWith(".tar.xz")) {
+                extractTarXz(assetFileName, destinationDir)
+            } else {
+                val destinationFile = File(destinationDir, File(assetFileName).name)
+                assets.open(assetFileName).use { inputStream ->
+                    FileOutputStream(destinationFile).use { outputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun extractTarXz(assetFileName: String, destinationDir: File) {
+        assets.open(assetFileName).use { inputStream ->
+            XZCompressorInputStream(inputStream).use { xzInputStream ->
+                TarArchiveInputStream(xzInputStream).use { tarInputStream ->
+                    var entry = tarInputStream.nextTarEntry
+                    while (entry != null) {
+                        val outputFile = File(destinationDir, entry.name)
+
+                        if (entry.isDirectory) {
+                            outputFile.mkdirs()
+                        } else {
+                            outputFile.parentFile?.mkdirs()
+                            BufferedOutputStream(FileOutputStream(outputFile)).use { output ->
+                                tarInputStream.copyTo(output)
+                            }
+                        }
+                        entry = tarInputStream.nextTarEntry
+                    }
                 }
             }
         }
