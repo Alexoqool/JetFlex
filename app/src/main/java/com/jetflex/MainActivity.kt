@@ -83,24 +83,26 @@ class MainActivity : AppCompatActivity() {
                 .also { it.show() }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            contentResolver.openInputStream(uri).use { inputStream ->
-                GzipCompressorInputStream(inputStream).use { gzipInputStream ->
-                    TarArchiveInputStream(gzipInputStream).use { tarInputStream ->
-                        val outputDir = File(applicationInfo.dataDir, "idea").apply { mkdirs() }
-                        var entry = tarInputStream.nextTarEntry
+            try {
+                contentResolver.openInputStream(uri)?.use { inputStream ->
+                    GzipCompressorInputStream(inputStream).use { gzipInputStream ->
+                        TarArchiveInputStream(gzipInputStream).use { tarInputStream ->
+                            val outputDir = File(applicationInfo.dataDir, "idea").apply { mkdirs() }
+                            var entry = tarInputStream.nextTarEntry
 
-                        while (entry != null) {
-                            val outputFile = File(outputDir, entry.name)
-
-                            if (entry.isDirectory) {
-                                outputFile.mkdirs()
-                            } else {
-                                outputFile.parentFile?.mkdirs()
-                                BufferedOutputStream(FileOutputStream(outputFile)).use { output ->
-                                    tarInputStream.copyTo(output)
+                            while (entry != null) {
+                                val outputFile = File(outputDir, entry.name)
+                                if (entry.isDirectory) {
+                                    outputFile.mkdirs()
+                                } else {
+                                    outputFile.parentFile?.mkdirs()
+                                    BufferedOutputStream(FileOutputStream(outputFile)).use { output
+                                        ->
+                                        tarInputStream.copyTo(output)
+                                    }
                                 }
+                                entry = tarInputStream.nextTarEntry
                             }
-                            entry = tarInputStream.nextTarEntry
                         }
                     }
                 }
@@ -122,28 +124,51 @@ class MainActivity : AppCompatActivity() {
                         .setPositiveButton(android.R.string.ok, null)
                         .show()
                 }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    isArchiveExtracted = false
+                    savePrefs()
+                    updateButtonsState()
+                    progressDialog?.dismiss()
+                    MaterialAlertDialogBuilder(this@MainActivity)
+                        .setTitle("Error")
+                        .setMessage("Extraction failed: ${e.message}")
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show()
+                }
             }
         }
     }
 
     private fun copyAsset(assetFileName: String, subDir: String) {
-        val destinationDir = File(applicationInfo.dataDir, subDir).apply { mkdirs() }
+        try {
+            val destinationDir = File(applicationInfo.dataDir, subDir).apply { mkdirs() }
 
-        if (assets.list(assetFileName) != null) {
-            assets.list(assetFileName)?.forEach { file ->
-                copyAsset("$assetFileName/$file", "$subDir/$file")
-            }
-        } else {
-            if (assetFileName.endsWith(".tar.xz")) {
-                extractTarXz(assetFileName, destinationDir)
+            if (assets.list(assetFileName)?.isNotEmpty() == true) {
+                assets.list(assetFileName)?.forEach { file ->
+                    copyAsset("$assetFileName/$file", "$subDir/$file")
+                }
             } else {
-                val destinationFile = File(destinationDir, File(assetFileName).name)
-                assets.open(assetFileName).use { inputStream ->
-                    FileOutputStream(destinationFile).use { outputStream ->
-                        inputStream.copyTo(outputStream)
+                if (assetFileName.endsWith(".tar.xz")) {
+                    extractTarXz(assetFileName, destinationDir)
+                } else {
+                    val destinationFile = File(destinationDir, File(assetFileName).name)
+                    assets.open(assetFileName).use { inputStream ->
+                        FileOutputStream(destinationFile).use { outputStream ->
+                            inputStream.copyTo(outputStream)
+                        }
                     }
                 }
             }
+        } catch (e: Exception) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                MaterialAlertDialogBuilder(this@MainActivity)
+                    .setTitle("Error")
+                    .setMessage("Failed to copy $assetFileName: ${e.message}")
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+            }
+            throw e
         }
     }
 
