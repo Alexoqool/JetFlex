@@ -11,8 +11,8 @@
         android:id="@+id/logo_image_view"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:layout_gravity="center|top"
         android:layout_marginTop="48dp"
+        android:layout_gravity="center|top"
         android:src="@mipmap/ic_launcher_round" />
 
     <com.google.android.material.textview.MaterialTextView
